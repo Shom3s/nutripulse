@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "995644602070",
+    "project_id": "nutripulse-f6650",
+    "storage_bucket": "nutripulse-f6650.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995644602070:android:fce938980f7ad81eb8fb77",
+        "android_client_info": {
+          "package_name": "com.example.nutripulse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBInwxJYry6s8c00nSEpQMNdGMnKWMWrrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
