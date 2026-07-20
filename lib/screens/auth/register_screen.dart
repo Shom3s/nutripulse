@@ -51,9 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     _slide = Tween<Offset>(
       begin: const Offset(0, 0.05),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
 
@@ -113,7 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen>
         ? Map<String, dynamic>.from(routeArgs)
         : <String, dynamic>{};
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       _showMessage('Please fill in all fields');
       return;
     }
@@ -136,11 +137,8 @@ class _RegisterScreenState extends State<RegisterScreen>
     });
 
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       final uid = credential.user!.uid;
 
@@ -156,7 +154,8 @@ class _RegisterScreenState extends State<RegisterScreen>
         'age': onboardingData['age'],
         'heightCm': onboardingData['heightCm'] ?? onboardingData['height'],
         'weightKg': onboardingData['weightKg'] ?? onboardingData['weight'],
-        'workoutsPerWeek': onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
+        'workoutsPerWeek':
+            onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
         'usedOtherApps': onboardingData['usedOtherApps'],
         'goal': onboardingData['goal'],
         'desiredWeightKg': onboardingData['desiredWeightKg'],
@@ -164,16 +163,20 @@ class _RegisterScreenState extends State<RegisterScreen>
         'monthsToGoal': onboardingData['monthsToGoal'],
         'diet': onboardingData['diet'],
         'blocker': onboardingData['blocker'],
-        'targetCalories': onboardingData['targetCalories'] ?? onboardingData['calories'],
-        'proteinGrams': onboardingData['proteinGrams'] ?? onboardingData['protein'],
+        'targetCalories':
+            onboardingData['targetCalories'] ?? onboardingData['calories'],
+        'proteinGrams':
+            onboardingData['proteinGrams'] ?? onboardingData['protein'],
         'carbsGrams': onboardingData['carbsGrams'] ?? onboardingData['carbs'],
         'fatsGrams': onboardingData['fatsGrams'] ?? onboardingData['fats'],
 
         // Also keep simple dashboard-friendly keys.
         'height': onboardingData['heightCm'] ?? onboardingData['height'],
         'weight': onboardingData['weightKg'] ?? onboardingData['weight'],
-        'workouts': onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
-        'calories': onboardingData['targetCalories'] ?? onboardingData['calories'],
+        'workouts':
+            onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
+        'calories':
+            onboardingData['targetCalories'] ?? onboardingData['calories'],
         'protein': onboardingData['proteinGrams'] ?? onboardingData['protein'],
         'carbs': onboardingData['carbsGrams'] ?? onboardingData['carbs'],
         'fats': onboardingData['fatsGrams'] ?? onboardingData['fats'],
@@ -184,12 +187,16 @@ class _RegisterScreenState extends State<RegisterScreen>
           'birthDate': onboardingData['birthDate'],
           'heightCm': onboardingData['heightCm'] ?? onboardingData['height'],
           'weightKg': onboardingData['weightKg'] ?? onboardingData['weight'],
-          'workoutsPerWeek': onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
+          'workoutsPerWeek':
+              onboardingData['workoutsPerWeek'] ?? onboardingData['workouts'],
           'usedOtherApps': onboardingData['usedOtherApps'],
         },
         'plan': {
           'goal': onboardingData['goal'],
-          'currentWeightKg': onboardingData['currentWeightKg'] ?? onboardingData['weightKg'] ?? onboardingData['weight'],
+          'currentWeightKg':
+              onboardingData['currentWeightKg'] ??
+              onboardingData['weightKg'] ??
+              onboardingData['weight'],
           'desiredWeightKg': onboardingData['desiredWeightKg'],
           'weeklyRateKg': onboardingData['weeklyRateKg'],
           'monthsToGoal': onboardingData['monthsToGoal'],
@@ -197,8 +204,10 @@ class _RegisterScreenState extends State<RegisterScreen>
           'diet': onboardingData['diet'],
         },
         'nutritionTargets': {
-          'calories': onboardingData['targetCalories'] ?? onboardingData['calories'],
-          'protein': onboardingData['proteinGrams'] ?? onboardingData['protein'],
+          'calories':
+              onboardingData['targetCalories'] ?? onboardingData['calories'],
+          'protein':
+              onboardingData['proteinGrams'] ?? onboardingData['protein'],
           'carbs': onboardingData['carbsGrams'] ?? onboardingData['carbs'],
           'fats': onboardingData['fatsGrams'] ?? onboardingData['fats'],
         },
@@ -364,10 +373,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: card,
-        content: Text(
-          message,
-          style: GoogleFonts.outfit(color: text),
-        ),
+        content: Text(message, style: GoogleFonts.outfit(color: text)),
       ),
     );
   }
@@ -381,11 +387,7 @@ class _RegisterScreenState extends State<RegisterScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF2A3A18),
-              Color(0xFF0F140D),
-              Color(0xFF070907),
-            ],
+            colors: [Color(0xFF2A3A18), Color(0xFF0F140D), Color(0xFF070907)],
           ),
         ),
         child: SafeArea(
@@ -395,8 +397,10 @@ class _RegisterScreenState extends State<RegisterScreen>
               position: _slide,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 22,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -570,22 +574,26 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: _handleRegister,
-                                      splashColor:
-                                          Colors.white.withValues(alpha: 0.25),
-                                      highlightColor:
-                                          Colors.black.withValues(alpha: 0.08),
+                                      splashColor: Colors.white.withValues(
+                                        alpha: 0.25,
+                                      ),
+                                      highlightColor: Colors.black.withValues(
+                                        alpha: 0.08,
+                                      ),
                                       child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 240),
+                                        duration: const Duration(
+                                          milliseconds: 240,
+                                        ),
                                         curve: Curves.easeOutCubic,
                                         decoration: BoxDecoration(
                                           color: _isSuccess
                                               ? lime
                                               : _isLoading
-                                                  ? lime.withValues(alpha: 0.78)
-                                                  : lime,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                              ? lime.withValues(alpha: 0.78)
+                                              : lime,
+                                          borderRadius: BorderRadius.circular(
+                                            24,
+                                          ),
                                           boxShadow: [
                                             BoxShadow(
                                               color: lime.withValues(
@@ -605,14 +613,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             switchOutCurve: Curves.easeIn,
                                             transitionBuilder:
                                                 (child, animation) {
-                                              return ScaleTransition(
-                                                scale: animation,
-                                                child: FadeTransition(
-                                                  opacity: animation,
-                                                  child: child,
-                                                ),
-                                              );
-                                            },
+                                                  return ScaleTransition(
+                                                    scale: animation,
+                                                    child: FadeTransition(
+                                                      opacity: animation,
+                                                      child: child,
+                                                    ),
+                                                  );
+                                                },
                                             child: _isSuccess
                                                 ? const Icon(
                                                     Icons.check_rounded,
@@ -621,29 +629,26 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                     size: 30,
                                                   )
                                                 : _isLoading
-                                                    ? const SizedBox(
-                                                        key:
-                                                            ValueKey('loading'),
-                                                        width: 23,
-                                                        height: 23,
-                                                        child:
-                                                            CircularProgressIndicator(
+                                                ? const SizedBox(
+                                                    key: ValueKey('loading'),
+                                                    width: 23,
+                                                    height: 23,
+                                                    child:
+                                                        CircularProgressIndicator(
                                                           strokeWidth: 2.5,
                                                           color: Colors.black,
                                                         ),
-                                                      )
-                                                    : Text(
-                                                        'Create Account',
-                                                        key: const ValueKey(
-                                                            'text'),
-                                                        style:
-                                                            GoogleFonts.outfit(
-                                                          color: Colors.black,
-                                                          fontSize: 17,
-                                                          fontWeight:
-                                                              FontWeight.w800,
-                                                        ),
-                                                      ),
+                                                  )
+                                                : Text(
+                                                    'Create Account',
+                                                    key: const ValueKey('text'),
+                                                    style: GoogleFonts.outfit(
+                                                      color: Colors.black,
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       ),

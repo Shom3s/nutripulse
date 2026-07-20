@@ -182,317 +182,330 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: [0.0, 0.34, 1.0],
-            colors: [
-              NPColors.bgTop,
-              NPColors.bgMid,
-              NPColors.bgBottom,
-            ],
+            colors: [NPColors.bgTop, NPColors.bgMid, NPColors.bgBottom],
           ),
         ),
         child: SafeArea(
           child: Column(
-          children: [
-            if (showGlobalTopBar)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24, 18, 24, 0),
-                child: Row(
-                  children: [
-                    _BackCircle(onTap: back),
-                    const SizedBox(width: 18),
-                    Expanded(
-                      child: _PersistentTopProgress(
-                        progress: _displayedTopProgress,
-                        previousProgress: _previousTopProgress,
+            children: [
+              if (showGlobalTopBar)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 18, 24, 0),
+                  child: Row(
+                    children: [
+                      _BackCircle(onTap: back),
+                      const SizedBox(width: 18),
+                      Expanded(
+                        child: _PersistentTopProgress(
+                          progress: _displayedTopProgress,
+                          previousProgress: _previousTopProgress,
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: (value) {
+                    setState(() {
+                      _previousTopProgress = _displayedTopProgress;
+                      _index = value;
+                      _displayedTopProgress = currentTopProgress;
+                    });
+                    if (value == 12) {
+                      _startLoadingAndAdvance();
+                    }
+                  },
+                  children: [
+                    _QuestionScaffold(
+                      progress: 1 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'Choose your Gender',
+                      subtitle:
+                          'This will be used to calibrate your custom plan.',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: 'Male',
+                            selected: gender == 'Male',
+                            onTap: () => setState(() => gender = 'Male'),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Female',
+                            selected: gender == 'Female',
+                            onTap: () => setState(() => gender = 'Female'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _QuestionScaffold(
+                      progress: 2 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'How many workouts\ndo you do per week?',
+                      subtitle:
+                          'This will be used to calibrate your custom plan.',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: '0-2',
+                            subtitle: 'Workouts now and then',
+                            icon: Icons.circle,
+                            selected:
+                                workoutsPerWeek > 0 && workoutsPerWeek <= 2,
+                            onTap: () => setState(() => workoutsPerWeek = 2),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: '3-5',
+                            subtitle: 'A few workouts per week',
+                            icon: Icons.more_horiz,
+                            selected:
+                                workoutsPerWeek >= 3 && workoutsPerWeek <= 5,
+                            onTap: () => setState(() => workoutsPerWeek = 4),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: '6+',
+                            subtitle: 'Dedicated athlete',
+                            icon: Icons.grid_view_rounded,
+                            selected: workoutsPerWeek >= 6,
+                            onTap: () => setState(() => workoutsPerWeek = 6),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _QuestionScaffold(
+                      progress: 3 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'Have you tried other\ncalorie tracking apps?',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: 'Yes',
+                            icon: Icons.thumb_up_alt_rounded,
+                            selected: usedOtherApps == true,
+                            onTap: () => setState(() => usedOtherApps = true),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'No',
+                            icon: Icons.thumb_down_alt_rounded,
+                            selected: usedOtherApps == false,
+                            onTap: () => setState(() => usedOtherApps = false),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _HeightWeightStep(
+                      progress: 4 / 10,
+                      onBack: back,
+                      onContinue: next,
+                      useMetric: useMetric,
+                      heightCm: heightCm,
+                      weightKg: weightKg,
+                      onUnitChanged: (v) => setState(() => useMetric = v),
+                      onHeightChanged: (v) => setState(() => heightCm = v),
+                      onWeightChanged: (v) => setState(() => weightKg = v),
+                    ),
+                    _BirthStep(
+                      progress: 5 / 10,
+                      onBack: back,
+                      onContinue: next,
+                      birthDate: birthDate,
+                      onChanged: (value) => setState(() => birthDate = value),
+                    ),
+                    _QuestionScaffold(
+                      progress: 6 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'What is your goal?',
+                      subtitle:
+                          'This helps us generate a plan for your calorie intake.',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: 'Lose weight',
+                            selected: goal == 'Lose weight',
+                            onTap: () => setState(() {
+                              goal = 'Lose weight';
+                              if (desiredWeightKg >= weightKg)
+                                desiredWeightKg = math.max(35.0, weightKg - 1);
+                            }),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Maintain',
+                            selected: goal == 'Maintain',
+                            onTap: () => setState(() {
+                              goal = 'Maintain';
+                              desiredWeightKg = weightKg;
+                            }),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Gain weight',
+                            selected: goal == 'Gain weight',
+                            onTap: () => setState(() {
+                              goal = 'Gain weight';
+                              if (desiredWeightKg <= weightKg)
+                                desiredWeightKg = math.min(120.0, weightKg + 1);
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _DesiredWeightStep(
+                      progress: 7 / 10,
+                      onBack: back,
+                      onContinue: next,
+                      goal: goal,
+                      currentWeightKg: weightKg,
+                      value: desiredWeightKg,
+                      onChanged: (v) {
+                        setState(() => desiredWeightKg = v);
+                      },
+                    ),
+                    _SpeedStep(
+                      progress: 8 / 10,
+                      onBack: back,
+                      onContinue: next,
+                      value: weeklyRateKg,
+                      monthsToGoal: monthsToGoal,
+                      caloriesRounded: caloriesRounded,
+                      onChanged: (v) {
+                        setState(() => weeklyRateKg = v);
+                      },
+                    ),
+                    _QuestionScaffold(
+                      progress: 9 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'What’s stopping you\nfrom reaching your\ngoals?',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: 'Lack of consistency',
+                            icon: Icons.bar_chart_rounded,
+                            selected: blocker == 'Lack of consistency',
+                            onTap: () =>
+                                setState(() => blocker = 'Lack of consistency'),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Unhealthy eating habits',
+                            icon: Icons.lunch_dining_rounded,
+                            selected: blocker == 'Unhealthy eating habits',
+                            onTap: () => setState(
+                              () => blocker = 'Unhealthy eating habits',
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Busy schedule',
+                            icon: Icons.calendar_month_rounded,
+                            selected: blocker == 'Busy schedule',
+                            onTap: () =>
+                                setState(() => blocker = 'Busy schedule'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _QuestionScaffold(
+                      progress: 10 / 10,
+                      onBack: back,
+                      canContinue: canContinue,
+                      onContinue: next,
+                      title: 'Do you follow a\nspecific diet?',
+                      child: Column(
+                        children: [
+                          _SelectionTile(
+                            title: 'Classic',
+                            icon: Icons.restaurant_rounded,
+                            selected: diet == 'Classic',
+                            onTap: () => setState(() => diet = 'Classic'),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Pescatarian',
+                            icon: Icons.set_meal_rounded,
+                            selected: diet == 'Pescatarian',
+                            onTap: () => setState(() => diet = 'Pescatarian'),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Vegetarian',
+                            icon: Icons.spa_rounded,
+                            selected: diet == 'Vegetarian',
+                            onTap: () => setState(() => diet = 'Vegetarian'),
+                          ),
+                          const SizedBox(height: 16),
+                          _SelectionTile(
+                            title: 'Vegan',
+                            icon: Icons.eco_rounded,
+                            selected: diet == 'Vegan',
+                            onTap: () => setState(() => diet = 'Vegan'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _AccomplishStep(onBack: back, onContinue: next),
+                    _WeightTransitionStep(
+                      goal: goal.isEmpty ? 'Maintain' : goal,
+                      onBack: back,
+                      onContinue: next,
+                    ),
+                    const _LoadingPlanScreen(),
+                    _ResultScreen(
+                      calories: caloriesRounded,
+                      carbs: carbsRounded,
+                      protein: proteinRounded,
+                      fats: fatsRounded,
+                      goal: goal.isEmpty ? 'Maintain' : goal,
+                      gender: gender ?? 'Other',
+                      age: age,
+                      workoutsPerWeek: workoutsPerWeek,
+                      usedOtherApps: usedOtherApps ?? false,
+                      blocker: blocker,
+                      diet: diet,
+                      currentWeightKg: weightKg,
+                      desiredWeightKg: desiredWeightKg,
+                      weeklyRateKg: weeklyRateKg,
+                      monthsToGoal: monthsToGoal,
+                      onCreateAccount: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/register',
+                          arguments: {
+                            'gender': gender,
+                            'age': age,
+                            'height': heightCm,
+                            'weight': weightKg,
+                            'goal': goal,
+                            'calories': caloriesRounded,
+                            'protein': proteinRounded,
+                            'carbs': carbsRounded,
+                            'fats': fatsRounded,
+                            'diet': diet,
+                            'workouts': workoutsPerWeek,
+                          },
+                        );
+                      },
+                      onSignIn: () => Navigator.pushNamed(context, '/login'),
                     ),
                   ],
                 ),
               ),
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (value) {
-                  setState(() {
-                    _previousTopProgress = _displayedTopProgress;
-                    _index = value;
-                    _displayedTopProgress = currentTopProgress;
-                  });
-                  if (value == 12) {
-                    _startLoadingAndAdvance();
-                  }
-                },
-                children: [
-            _QuestionScaffold(
-              progress: 1 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'Choose your Gender',
-              subtitle: 'This will be used to calibrate your custom plan.',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: 'Male',
-                    selected: gender == 'Male',
-                    onTap: () => setState(() => gender = 'Male'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Female',
-                    selected: gender == 'Female',
-                    onTap: () => setState(() => gender = 'Female'),
-                  ),
-                ],
-              ),
-            ),
-            _QuestionScaffold(
-              progress: 2 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'How many workouts\ndo you do per week?',
-              subtitle: 'This will be used to calibrate your custom plan.',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: '0-2',
-                    subtitle: 'Workouts now and then',
-                    icon: Icons.circle,
-                    selected: workoutsPerWeek > 0 && workoutsPerWeek <= 2,
-                    onTap: () => setState(() => workoutsPerWeek = 2),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: '3-5',
-                    subtitle: 'A few workouts per week',
-                    icon: Icons.more_horiz,
-                    selected: workoutsPerWeek >= 3 && workoutsPerWeek <= 5,
-                    onTap: () => setState(() => workoutsPerWeek = 4),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: '6+',
-                    subtitle: 'Dedicated athlete',
-                    icon: Icons.grid_view_rounded,
-                    selected: workoutsPerWeek >= 6,
-                    onTap: () => setState(() => workoutsPerWeek = 6),
-                  ),
-                ],
-              ),
-            ),
-            _QuestionScaffold(
-              progress: 3 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'Have you tried other\ncalorie tracking apps?',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: 'Yes',
-                    icon: Icons.thumb_up_alt_rounded,
-                    selected: usedOtherApps == true,
-                    onTap: () => setState(() => usedOtherApps = true),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'No',
-                    icon: Icons.thumb_down_alt_rounded,
-                    selected: usedOtherApps == false,
-                    onTap: () => setState(() => usedOtherApps = false),
-                  ),
-                ],
-              ),
-            ),
-            _HeightWeightStep(
-              progress: 4 / 10,
-              onBack: back,
-              onContinue: next,
-              useMetric: useMetric,
-              heightCm: heightCm,
-              weightKg: weightKg,
-              onUnitChanged: (v) => setState(() => useMetric = v),
-              onHeightChanged: (v) => setState(() => heightCm = v),
-              onWeightChanged: (v) => setState(() => weightKg = v),
-            ),
-            _BirthStep(
-              progress: 5 / 10,
-              onBack: back,
-              onContinue: next,
-              birthDate: birthDate,
-              onChanged: (value) => setState(() => birthDate = value),
-            ),
-            _QuestionScaffold(
-              progress: 6 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'What is your goal?',
-              subtitle: 'This helps us generate a plan for your calorie intake.',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: 'Lose weight',
-                    selected: goal == 'Lose weight',
-                    onTap: () => setState(() { goal = 'Lose weight'; if (desiredWeightKg >= weightKg) desiredWeightKg = math.max(35.0, weightKg - 1); }),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Maintain',
-                    selected: goal == 'Maintain',
-                    onTap: () => setState(() { goal = 'Maintain'; desiredWeightKg = weightKg; }),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Gain weight',
-                    selected: goal == 'Gain weight',
-                    onTap: () => setState(() { goal = 'Gain weight'; if (desiredWeightKg <= weightKg) desiredWeightKg = math.min(120.0, weightKg + 1); }),
-                  ),
-                ],
-              ),
-            ),
-            _DesiredWeightStep(
-              progress: 7 / 10,
-              onBack: back,
-              onContinue: next,
-              goal: goal,
-              currentWeightKg: weightKg,
-              value: desiredWeightKg,
-              onChanged: (v) {
-                setState(() => desiredWeightKg = v);
-              },
-            ),
-            _SpeedStep(
-              progress: 8 / 10,
-              onBack: back,
-              onContinue: next,
-              value: weeklyRateKg,
-              monthsToGoal: monthsToGoal,
-              caloriesRounded: caloriesRounded,
-              onChanged: (v) {
-                setState(() => weeklyRateKg = v);
-              },
-            ),
-            _QuestionScaffold(
-              progress: 9 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'What’s stopping you\nfrom reaching your\ngoals?',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: 'Lack of consistency',
-                    icon: Icons.bar_chart_rounded,
-                    selected: blocker == 'Lack of consistency',
-                    onTap: () => setState(() => blocker = 'Lack of consistency'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Unhealthy eating habits',
-                    icon: Icons.lunch_dining_rounded,
-                    selected: blocker == 'Unhealthy eating habits',
-                    onTap: () => setState(() => blocker = 'Unhealthy eating habits'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Busy schedule',
-                    icon: Icons.calendar_month_rounded,
-                    selected: blocker == 'Busy schedule',
-                    onTap: () => setState(() => blocker = 'Busy schedule'),
-                  ),
-                ],
-              ),
-            ),
-            _QuestionScaffold(
-              progress: 10 / 10,
-              onBack: back,
-              canContinue: canContinue,
-              onContinue: next,
-              title: 'Do you follow a\nspecific diet?',
-              child: Column(
-                children: [
-                  _SelectionTile(
-                    title: 'Classic',
-                    icon: Icons.restaurant_rounded,
-                    selected: diet == 'Classic',
-                    onTap: () => setState(() => diet = 'Classic'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Pescatarian',
-                    icon: Icons.set_meal_rounded,
-                    selected: diet == 'Pescatarian',
-                    onTap: () => setState(() => diet = 'Pescatarian'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Vegetarian',
-                    icon: Icons.spa_rounded,
-                    selected: diet == 'Vegetarian',
-                    onTap: () => setState(() => diet = 'Vegetarian'),
-                  ),
-                  const SizedBox(height: 16),
-                  _SelectionTile(
-                    title: 'Vegan',
-                    icon: Icons.eco_rounded,
-                    selected: diet == 'Vegan',
-                    onTap: () => setState(() => diet = 'Vegan'),
-                  ),
-                ],
-              ),
-            ),
-            _AccomplishStep(
-              onBack: back,
-              onContinue: next,
-            ),
-            _WeightTransitionStep(
-              goal: goal.isEmpty ? 'Maintain' : goal,
-              onBack: back,
-              onContinue: next,
-            ),
-            const _LoadingPlanScreen(),
-            _ResultScreen(
-              calories: caloriesRounded,
-              carbs: carbsRounded,
-              protein: proteinRounded,
-              fats: fatsRounded,
-              goal: goal.isEmpty ? 'Maintain' : goal,
-              gender: gender ?? 'Other',
-              age: age,
-              workoutsPerWeek: workoutsPerWeek,
-              usedOtherApps: usedOtherApps ?? false,
-              blocker: blocker,
-              diet: diet,
-              currentWeightKg: weightKg,
-              desiredWeightKg: desiredWeightKg,
-              weeklyRateKg: weeklyRateKg,
-              monthsToGoal: monthsToGoal,
-              onCreateAccount: () {
-                Navigator.pushNamed(
-                  context,
-                  '/register',
-                  arguments: {
-                    'gender': gender,
-                    'age': age,
-                    'height': heightCm,
-                    'weight': weightKg,
-                    'goal': goal,
-                    'calories': caloriesRounded,
-                    'protein': proteinRounded,
-                    'carbs': carbsRounded,
-                    'fats': fatsRounded,
-                    'diet': diet,
-                    'workouts': workoutsPerWeek,
-                  },
-                );
-              },
-              onSignIn: () => Navigator.pushNamed(context, '/login'),
-            ),
-                ],
-              ),
-            ),
             ],
           ),
         ),
@@ -519,12 +532,12 @@ class NPColors {
   static const Color fats = Color(0xFF8CAAEF);
 
   static TextStyle title({double size = 34}) => GoogleFonts.outfit(
-        color: text,
-        fontSize: size,
-        fontWeight: FontWeight.w800,
-        height: 1.12,
-        letterSpacing: -0.7,
-      );
+    color: text,
+    fontSize: size,
+    fontWeight: FontWeight.w800,
+    height: 1.12,
+    letterSpacing: -0.7,
+  );
 
   static TextStyle body({double size = 15.5, Color color = soft}) =>
       GoogleFonts.outfit(
@@ -540,10 +553,7 @@ class _LandingScreen extends StatefulWidget {
   final VoidCallback onGetStarted;
   final VoidCallback onSignIn;
 
-  const _LandingScreen({
-    required this.onGetStarted,
-    required this.onSignIn,
-  });
+  const _LandingScreen({required this.onGetStarted, required this.onSignIn});
 
   @override
   State<_LandingScreen> createState() => _LandingScreenState();
@@ -563,13 +573,15 @@ class _LandingScreenState extends State<_LandingScreen>
       duration: const Duration(milliseconds: 2600),
     )..repeat(reverse: true);
 
-    _float = Tween<double>(begin: -10, end: 8).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _float = Tween<double>(
+      begin: -10,
+      end: 8,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
-    _fade = Tween<double>(begin: 0.92, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _fade = Tween<double>(
+      begin: 0.92,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -679,7 +691,9 @@ class _LandingScreenState extends State<_LandingScreen>
                                   Positioned(
                                     right: 18,
                                     top: 18,
-                                    child: _miniCircle(Icons.help_outline_rounded),
+                                    child: _miniCircle(
+                                      Icons.help_outline_rounded,
+                                    ),
                                   ),
                                   const Positioned.fill(
                                     child: Center(
@@ -776,11 +790,20 @@ class _LandingScreenState extends State<_LandingScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _FeaturePill(icon: Icons.sensors_rounded, label: 'IoT Health'),
+                    _FeaturePill(
+                      icon: Icons.sensors_rounded,
+                      label: 'IoT Health',
+                    ),
                     const SizedBox(width: 8),
-                    _FeaturePill(icon: Icons.auto_awesome_rounded, label: 'AI Scan'),
+                    _FeaturePill(
+                      icon: Icons.auto_awesome_rounded,
+                      label: 'AI Scan',
+                    ),
                     const SizedBox(width: 8),
-                    _FeaturePill(icon: Icons.monitor_heart_rounded, label: 'Real-time'),
+                    _FeaturePill(
+                      icon: Icons.monitor_heart_rounded,
+                      label: 'Real-time',
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -817,10 +840,7 @@ class _LandingScreenState extends State<_LandingScreen>
                   child: const Text.rich(
                     TextSpan(
                       text: 'Already have an account? ',
-                      style: TextStyle(
-                        color: NPColors.text,
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(color: NPColors.text, fontSize: 16),
                       children: [
                         TextSpan(
                           text: 'Sign In',
@@ -883,9 +903,7 @@ class _AuthButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: dark ? NPColors.primary : NPColors.surface,
           borderRadius: BorderRadius.circular(28),
-          border: dark
-              ? null
-              : Border.all(color: NPColors.border, width: 1),
+          border: dark ? null : Border.all(color: NPColors.border, width: 1),
           boxShadow: dark
               ? [
                   BoxShadow(
@@ -1111,8 +1129,10 @@ class _PersistentTopProgressState extends State<_PersistentTopProgress>
       builder: (context, value, _) {
         return LayoutBuilder(
           builder: (context, constraints) {
-            final fillWidth =
-                (constraints.maxWidth * value).clamp(0.0, constraints.maxWidth);
+            final fillWidth = (constraints.maxWidth * value).clamp(
+              0.0,
+              constraints.maxWidth,
+            );
             return Container(
               height: 8,
               decoration: BoxDecoration(
@@ -1135,9 +1155,13 @@ class _PersistentTopProgressState extends State<_PersistentTopProgress>
                           borderRadius: BorderRadius.circular(999),
                           gradient: LinearGradient(
                             begin: Alignment(
-                                -1.0 + (_shimmerController.value * 2), 0),
+                              -1.0 + (_shimmerController.value * 2),
+                              0,
+                            ),
                             end: Alignment(
-                                0.2 + (_shimmerController.value * 2), 0),
+                              0.2 + (_shimmerController.value * 2),
+                              0,
+                            ),
                             colors: const [
                               Color(0xFFBEE64A),
                               Color(0xFFD6FF60),
@@ -1214,8 +1238,12 @@ class _HeightWeightStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final heightValue = useMetric ? heightCm.round().toDouble() : heightInches.toDouble();
-    final weightValue = useMetric ? weightKg.round().toDouble() : weightPounds.toDouble();
+    final heightValue = useMetric
+        ? heightCm.round().toDouble()
+        : heightInches.toDouble();
+    final weightValue = useMetric
+        ? weightKg.round().toDouble()
+        : weightPounds.toDouble();
 
     return _QuestionScaffold(
       progress: progress,
@@ -1230,7 +1258,7 @@ class _HeightWeightStep extends StatelessWidget {
           _UnitToggle(
             useMetric: useMetric,
             onChanged: (v) {
-                      onUnitChanged(v);
+              onUnitChanged(v);
             },
           ),
           const SizedBox(height: 26),
@@ -1308,7 +1336,8 @@ class _BirthStep extends StatelessWidget {
       canContinue: true,
       onContinue: onContinue,
       title: 'What is your age?',
-      subtitle: 'This helps us calculate a more accurate health and nutrition plan.',
+      subtitle:
+          'This helps us calculate a more accurate health and nutrition plan.',
       child: Column(
         children: [
           const SizedBox(height: 10),
@@ -1323,7 +1352,9 @@ class _BirthStep extends StatelessWidget {
             accentColor: NPColors.primary,
             onChanged: (v) {
               final now = DateTime.now();
-              onChanged(DateTime(now.year - v.round(), birthDate.month, birthDate.day));
+              onChanged(
+                DateTime(now.year - v.round(), birthDate.month, birthDate.day),
+              );
             },
           ),
         ],
@@ -1377,8 +1408,8 @@ class _DesiredWeightStep extends StatelessWidget {
       subtitle: safeGoal == 'Lose weight'
           ? 'Choose a target below your current weight.'
           : safeGoal == 'Gain weight'
-              ? 'Choose a target above your current weight.'
-              : 'Choose a target close to your current weight.',
+          ? 'Choose a target above your current weight.'
+          : 'Choose a target close to your current weight.',
       child: Column(
         children: [
           const SizedBox(height: 8),
@@ -1492,8 +1523,8 @@ class _SpeedStep extends StatelessWidget {
               activeTrackColor: isSlow
                   ? const Color(0xFF5B8FD6)
                   : isFast
-                      ? const Color(0xFFD95555)
-                      : NPColors.accent,
+                  ? const Color(0xFFD95555)
+                  : NPColors.accent,
               inactiveTrackColor: NPColors.surface2,
               thumbColor: Colors.white,
               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 14),
@@ -1550,13 +1581,14 @@ class _SpeedStep extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: '$monthsToGoal month${monthsToGoal == 1 ? '' : 's'}',
+                              text:
+                                  '$monthsToGoal month${monthsToGoal == 1 ? '' : 's'}',
                               style: TextStyle(
                                 color: isSlow
                                     ? const Color(0xFF5B8FD6)
                                     : isFast
-                                        ? const Color(0xFFD95555)
-                                        : NPColors.accent,
+                                    ? const Color(0xFFD95555)
+                                    : NPColors.accent,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 15,
                               ),
@@ -1592,10 +1624,7 @@ class _AccomplishStep extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onContinue;
 
-  const _AccomplishStep({
-    required this.onBack,
-    required this.onContinue,
-  });
+  const _AccomplishStep({required this.onBack, required this.onContinue});
 
   @override
   State<_AccomplishStep> createState() => _AccomplishStepState();
@@ -1607,8 +1636,14 @@ class _AccomplishStepState extends State<_AccomplishStep> {
   static const List<_AccomplishOption> _options = [
     _AccomplishOption('Eat and live healthier', Icons.apple_rounded),
     _AccomplishOption('Boost my energy and mood', Icons.wb_sunny_rounded),
-    _AccomplishOption('Stay motivated and consistent', Icons.fitness_center_rounded),
-    _AccomplishOption('Feel better about my body', Icons.self_improvement_rounded),
+    _AccomplishOption(
+      'Stay motivated and consistent',
+      Icons.fitness_center_rounded,
+    ),
+    _AccomplishOption(
+      'Feel better about my body',
+      Icons.self_improvement_rounded,
+    ),
   ];
 
   @override
@@ -1706,7 +1741,10 @@ class _WeightTransitionStepState extends State<_WeightTransitionStep>
       duration: const Duration(milliseconds: 2200),
     )..forward();
     _draw = CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic);
-    _fade = CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.35, curve: Curves.easeOut));
+    _fade = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+    );
   }
 
   @override
@@ -1716,8 +1754,10 @@ class _WeightTransitionStepState extends State<_WeightTransitionStep>
   }
 
   String get _headline {
-    if (widget.goal == 'Lose weight') return 'You have great\npotential to crush\nyour goal';
-    if (widget.goal == 'Gain weight') return 'You have great\npotential to crush\nyour goal';
+    if (widget.goal == 'Lose weight')
+      return 'You have great\npotential to crush\nyour goal';
+    if (widget.goal == 'Gain weight')
+      return 'You have great\npotential to crush\nyour goal';
     return 'You\'re on the right\ntrack to maintain\nyour goal';
   }
 
@@ -1766,7 +1806,10 @@ class _WeightTransitionStepState extends State<_WeightTransitionStep>
                     decoration: BoxDecoration(
                       color: NPColors.surface,
                       borderRadius: BorderRadius.circular(22),
-                      border: Border.all(color: NPColors.border.withValues(alpha: 0.7), width: 0.8),
+                      border: Border.all(
+                        color: NPColors.border.withValues(alpha: 0.7),
+                        width: 0.8,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.04),
@@ -1847,15 +1890,12 @@ class _WeightCurvePainter extends CustomPainter {
   double _curve(double t) {
     if (isGain) {
       // Lag then accelerate: slow flat start, sharp rise at end
-      return t < 0.5
-          ? 2 * t * t * t
-          : 1 - math.pow(-2 * t + 2, 3) / 2;
+      return t < 0.5 ? 2 * t * t * t : 1 - math.pow(-2 * t + 2, 3) / 2;
     } else {
       // Drop fast then flatten: inverse S
       final inv = 1 - t;
-      return 1 - (inv < 0.5
-          ? 2 * inv * inv * inv
-          : 1 - math.pow(-2 * inv + 2, 3) / 2);
+      return 1 -
+          (inv < 0.5 ? 2 * inv * inv * inv : 1 - math.pow(-2 * inv + 2, 3) / 2);
     }
   }
 
@@ -1884,7 +1924,11 @@ class _WeightCurvePainter extends CustomPainter {
       const dashGap = 5.0;
       double dx = leftPad;
       while (dx < endX) {
-        canvas.drawLine(Offset(dx, gy), Offset(math.min(dx + dashW, endX), gy), gridPaint);
+        canvas.drawLine(
+          Offset(dx, gy),
+          Offset(math.min(dx + dashW, endX), gy),
+          gridPaint,
+        );
         dx += dashW + dashGap;
       }
     }
@@ -1895,10 +1939,7 @@ class _WeightCurvePainter extends CustomPainter {
     for (int i = 0; i <= steps; i++) {
       final t = i / steps;
       final y = _curve(t);
-      allPts.add(Offset(
-        leftPad + t * chartW,
-        topPad + (1.0 - y) * chartH,
-      ));
+      allPts.add(Offset(leftPad + t * chartW, topPad + (1.0 - y) * chartH));
     }
 
     // Clip to animated progress
@@ -1958,10 +1999,7 @@ class _WeightCurvePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [
-            NPColors.text.withValues(alpha: 0.55),
-            NPColors.text,
-          ],
+          colors: [NPColors.text.withValues(alpha: 0.55), NPColors.text],
         ).createShader(Rect.fromLTWH(leftPad, 0, chartW, h))
         ..strokeWidth = 2.4
         ..style = PaintingStyle.stroke
@@ -2089,9 +2127,17 @@ class _LoadingPlanScreenState extends State<_LoadingPlanScreen>
   // Tick items: label, icon, threshold (0..1)
   static const List<_TickItem> _ticks = [
     _TickItem('Analyzing your body profile', Icons.person_rounded, 0.25),
-    _TickItem('Building your nutrition target', Icons.local_fire_department_rounded, 0.50),
+    _TickItem(
+      'Building your nutrition target',
+      Icons.local_fire_department_rounded,
+      0.50,
+    ),
     _TickItem('Optimizing your macro split', Icons.grain_rounded, 0.75),
-    _TickItem('Preparing your AI coach insight', Icons.auto_awesome_rounded, 1.00),
+    _TickItem(
+      'Preparing your AI coach insight',
+      Icons.auto_awesome_rounded,
+      1.00,
+    ),
   ];
 
   // Per-tick animation controllers
@@ -2113,35 +2159,39 @@ class _LoadingPlanScreenState extends State<_LoadingPlanScreen>
       ),
     );
 
-    _tickScales = _tickControllers.map((c) =>
-      Tween<double>(begin: 0.5, end: 1.0).animate(
-        CurvedAnimation(parent: c, curve: Curves.easeOutBack),
-      ),
-    ).toList();
+    _tickScales = _tickControllers
+        .map(
+          (c) => Tween<double>(
+            begin: 0.5,
+            end: 1.0,
+          ).animate(CurvedAnimation(parent: c, curve: Curves.easeOutBack)),
+        )
+        .toList();
 
-    _tickFades = _tickControllers.map((c) =>
-      CurvedAnimation(parent: c, curve: Curves.easeOut),
-    ).toList();
+    _tickFades = _tickControllers
+        .map((c) => CurvedAnimation(parent: c, curve: Curves.easeOut))
+        .toList();
 
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 3200),
     )..forward();
 
-    _progress = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
-    )..addListener(() {
-        if (!mounted) return;
-        final value = _progress.value;
-        for (int i = 0; i < _ticks.length; i++) {
-          if (!_tickFired[i] && value >= _ticks[i].threshold) {
-            _tickFired[i] = true;
-            _tickControllers[i].forward();
-            HapticFeedback.lightImpact();
+    _progress =
+        Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
+        )..addListener(() {
+          if (!mounted) return;
+          final value = _progress.value;
+          for (int i = 0; i < _ticks.length; i++) {
+            if (!_tickFired[i] && value >= _ticks[i].threshold) {
+              _tickFired[i] = true;
+              _tickControllers[i].forward();
+              HapticFeedback.lightImpact();
+            }
           }
-        }
-        setState(() {});
-      });
+          setState(() {});
+        });
   }
 
   @override
@@ -2230,35 +2280,39 @@ class _LoadingPlanScreenState extends State<_LoadingPlanScreen>
             tween: Tween(begin: 0, end: _progress.value),
             duration: const Duration(milliseconds: 120),
             builder: (context, v, _) {
-              return LayoutBuilder(builder: (context, constraints) {
-                return Container(
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.07),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Stack(children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 120),
-                      curve: Curves.linear,
-                      width: constraints.maxWidth * _progress.value,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFD6FF60), Color(0xFFBEE64A)],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: NPColors.accent.withValues(alpha: 0.35),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  return Container(
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.07),
+                      borderRadius: BorderRadius.circular(999),
                     ),
-                  ]),
-                );
-              });
+                    child: Stack(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 120),
+                          curve: Curves.linear,
+                          width: constraints.maxWidth * _progress.value,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(999),
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFD6FF60), Color(0xFFBEE64A)],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: NPColors.accent.withValues(alpha: 0.35),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
           ),
           const SizedBox(height: 28),
@@ -2289,7 +2343,9 @@ class _LoadingPlanScreenState extends State<_LoadingPlanScreen>
                           boxShadow: fired
                               ? [
                                   BoxShadow(
-                                    color: NPColors.primary.withValues(alpha: 0.20),
+                                    color: NPColors.primary.withValues(
+                                      alpha: 0.20,
+                                    ),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
@@ -2388,8 +2444,12 @@ class _ResultScreenState extends State<_ResultScreen>
     if (diff > 10) score -= 6;
     if (widget.protein < 100) score -= 4;
     if (widget.calories > 3600 || widget.calories < 1500) score -= 4;
-    if (widget.workoutsPerWeek <= 1 && widget.goal.toLowerCase().contains('gain')) score -= 3;
-    if (widget.workoutsPerWeek >= 6 && widget.goal.toLowerCase().contains('lose')) score -= 2;
+    if (widget.workoutsPerWeek <= 1 &&
+        widget.goal.toLowerCase().contains('gain'))
+      score -= 3;
+    if (widget.workoutsPerWeek >= 6 &&
+        widget.goal.toLowerCase().contains('lose'))
+      score -= 2;
     if (widget.blocker == 'Lack of consistency') score -= 2;
     if (widget.weeklyRateKg >= 0.9) score -= 3;
     if (widget.diet == 'Vegan' && widget.protein < 110) score -= 2;
@@ -2406,16 +2466,16 @@ class _ResultScreenState extends State<_ResultScreen>
     final pace = widget.weeklyRateKg >= 0.75
         ? 'aggressive'
         : widget.weeklyRateKg <= 0.35
-            ? 'slow and controlled'
-            : 'balanced';
+        ? 'slow and controlled'
+        : 'balanced';
     final training = widget.workoutsPerWeek >= 4
         ? 'Your training frequency supports this target well.'
         : 'A slightly more consistent training routine would improve results.';
     final blockerTip = widget.blocker == 'Busy schedule'
         ? 'Because you reported a busy schedule, the plan should work best with repeatable meals and simpler food choices.'
         : widget.blocker == 'Unhealthy eating habits'
-            ? 'Because eating habits are your main blocker, the plan favors consistency and easier daily structure over extreme targets.'
-            : 'Because consistency is your main blocker, the plan avoids unnecessary complexity and focuses on sustainable habits.';
+        ? 'Because eating habits are your main blocker, the plan favors consistency and easier daily structure over extreme targets.'
+        : 'Because consistency is your main blocker, the plan avoids unnecessary complexity and focuses on sustainable habits.';
     final appStyle = widget.usedOtherApps
         ? 'It also assumes you already understand tracking basics, so the targets are a bit more direct.'
         : 'It is structured to feel beginner-friendly so the targets are easier to follow from day one.';
@@ -2435,8 +2495,8 @@ class _ResultScreenState extends State<_ResultScreen>
     final blockerAction = widget.blocker == 'Busy schedule'
         ? 'Prepare 2-3 repeatable meals you can follow on busy days'
         : widget.blocker == 'Unhealthy eating habits'
-            ? 'Start with one controlled meal routine before changing everything at once'
-            : 'Use a simple daily routine so consistency becomes automatic';
+        ? 'Start with one controlled meal routine before changing everything at once'
+        : 'Use a simple daily routine so consistency becomes automatic';
 
     if (widget.goal.toLowerCase().contains('gain')) {
       return [
@@ -2486,15 +2546,13 @@ class _ResultScreenState extends State<_ResultScreen>
       curve: Curves.easeOut,
     );
 
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 0.05),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _pageAnimationController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+    _slide = Tween<Offset>(begin: const Offset(0, 0.05), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _pageAnimationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
     _pageAnimationController.forward();
     _celebrationController.forward();
@@ -2550,10 +2608,7 @@ class _ResultScreenState extends State<_ResultScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                goalLabel,
-                                style: NPColors.title(size: 22),
-                              ),
+                              Text(goalLabel, style: NPColors.title(size: 22)),
                               const SizedBox(height: 2),
                               Text(
                                 '${widget.currentWeightKg.toStringAsFixed(1)} kg → ${widget.desiredWeightKg.toStringAsFixed(1)} kg',
@@ -2586,7 +2641,8 @@ class _ResultScreenState extends State<_ResultScreen>
                         Expanded(
                           child: _MiniPlanStat(
                             label: 'Pace',
-                            value: '${widget.weeklyRateKg.toStringAsFixed(1)}/wk',
+                            value:
+                                '${widget.weeklyRateKg.toStringAsFixed(1)}/wk',
                             icon: Icons.speed_rounded,
                           ),
                         ),
@@ -2664,7 +2720,9 @@ class _ResultScreenState extends State<_ResultScreen>
                     const SizedBox(height: 12),
                     _CleanFocusRow(
                       icon: Icons.restaurant_rounded,
-                      title: widget.diet.isEmpty ? 'Balanced meals' : widget.diet,
+                      title: widget.diet.isEmpty
+                          ? 'Balanced meals'
+                          : widget.diet,
                     ),
                     const SizedBox(height: 10),
                     _CleanFocusRow(
@@ -2674,7 +2732,9 @@ class _ResultScreenState extends State<_ResultScreen>
                     const SizedBox(height: 10),
                     _CleanFocusRow(
                       icon: Icons.auto_awesome_rounded,
-                      title: widget.blocker.isEmpty ? 'Consistency first' : widget.blocker,
+                      title: widget.blocker.isEmpty
+                          ? 'Consistency first'
+                          : widget.blocker,
                     ),
                   ],
                 ),
@@ -2818,9 +2878,10 @@ class _ResultHeroState extends State<_ResultHero>
       duration: const Duration(milliseconds: 900),
     )..forward();
 
-    _scale = Tween<double>(begin: 0.86, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _scale = Tween<double>(
+      begin: 0.86,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _fade = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
   }
@@ -2855,7 +2916,11 @@ class _ResultHeroState extends State<_ResultHero>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.check_rounded, color: Colors.black, size: 18),
+                  const Icon(
+                    Icons.check_rounded,
+                    color: Colors.black,
+                    size: 18,
+                  ),
                   const SizedBox(width: 7),
                   Text(
                     'Plan ready',
@@ -3015,8 +3080,9 @@ class _SelectionTileState extends State<_SelectionTile>
                       style: GoogleFonts.outfit(
                         color: NPColors.text,
                         fontSize: 17,
-                        fontWeight:
-                            widget.selected ? FontWeight.w800 : FontWeight.w600,
+                        fontWeight: widget.selected
+                            ? FontWeight.w800
+                            : FontWeight.w600,
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -3110,17 +3176,21 @@ class _MeasureRulerCardState extends State<_MeasureRulerCard> {
   @override
   void didUpdateWidget(covariant _MeasureRulerCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final boundsChanged = oldWidget.min != widget.min ||
+    final boundsChanged =
+        oldWidget.min != widget.min ||
         oldWidget.max != widget.max ||
         oldWidget.step != widget.step ||
         oldWidget.unit != widget.unit;
 
     if (boundsChanged || (widget.value - oldWidget.value).abs() > 0.001) {
-      _localValue = _snap(widget.value.clamp(widget.min, widget.max).toDouble());
+      _localValue = _snap(
+        widget.value.clamp(widget.min, widget.max).toDouble(),
+      );
     }
   }
 
-  double get _clampedValue => _localValue.clamp(widget.min, widget.max).toDouble();
+  double get _clampedValue =>
+      _localValue.clamp(widget.min, widget.max).toDouble();
 
   double _snap(double raw) {
     final stepped = (raw / widget.step).round() * widget.step;
@@ -3142,7 +3212,8 @@ class _MeasureRulerCardState extends State<_MeasureRulerCard> {
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
-    final stepDelta = (_dragStartDx - details.localPosition.dx) / _pixelsPerStep;
+    final stepDelta =
+        (_dragStartDx - details.localPosition.dx) / _pixelsPerStep;
     _commit(_dragStartValue + (stepDelta * widget.step));
   }
 
@@ -3196,7 +3267,10 @@ class _MeasureRulerCardState extends State<_MeasureRulerCard> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
                   color: NPColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(999),
@@ -3244,7 +3318,8 @@ class _MeasureRulerCardState extends State<_MeasureRulerCard> {
                     behavior: HitTestBehavior.opaque,
                     onHorizontalDragStart: _onDragStart,
                     onHorizontalDragUpdate: _onDragUpdate,
-                    onTapDown: (details) => _onTapDown(details, constraints.maxWidth),
+                    onTapDown: (details) =>
+                        _onTapDown(details, constraints.maxWidth),
                     child: SizedBox(
                       height: 94,
                       child: Stack(
@@ -3275,7 +3350,9 @@ class _MeasureRulerCardState extends State<_MeasureRulerCard> {
                                   borderRadius: BorderRadius.circular(999),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: NPColors.primary.withValues(alpha: 0.35),
+                                      color: NPColors.primary.withValues(
+                                        alpha: 0.35,
+                                      ),
                                       blurRadius: 16,
                                       spreadRadius: 1,
                                     ),
@@ -3356,7 +3433,11 @@ class _ProfessionalRulerPainter extends CustomPainter {
       final isMid = rounded % 5 == 0;
       final distance = (x - centerX).abs() / centerX;
       final opacity = (1.0 - distance).clamp(0.18, 0.88).toDouble();
-      final height = isMajor ? 36.0 : isMid ? 26.0 : 17.0;
+      final height = isMajor
+          ? 36.0
+          : isMid
+          ? 26.0
+          : 17.0;
 
       tickPaint
         ..color = isMajor
@@ -3430,10 +3511,7 @@ class _UnitToggle extends StatelessWidget {
   final bool useMetric;
   final ValueChanged<bool> onChanged;
 
-  const _UnitToggle({
-    required this.useMetric,
-    required this.onChanged,
-  });
+  const _UnitToggle({required this.useMetric, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -3463,8 +3541,9 @@ class _UnitToggle extends StatelessWidget {
               borderRadius: BorderRadius.circular(24),
             ),
             child: Align(
-              alignment:
-                  useMetric ? Alignment.centerRight : Alignment.centerLeft,
+              alignment: useMetric
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
               child: Container(
                 width: 40,
                 height: 40,
@@ -3522,7 +3601,9 @@ class _WheelPickerColumnState extends State<_WheelPickerColumn> {
     if (oldWidget.initialIndex != widget.initialIndex) {
       _controller.dispose();
       _lastIndex = widget.initialIndex;
-      _controller = FixedExtentScrollController(initialItem: widget.initialIndex);
+      _controller = FixedExtentScrollController(
+        initialItem: widget.initialIndex,
+      );
     }
   }
 
@@ -3546,7 +3627,8 @@ class _WheelPickerColumnState extends State<_WheelPickerColumn> {
               color: NPColors.primary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(26),
               border: Border.all(
-                  color: NPColors.primary.withValues(alpha: 0.28)),
+                color: NPColors.primary.withValues(alpha: 0.28),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: NPColors.primary.withValues(alpha: 0.16),
@@ -3582,7 +3664,7 @@ class _WheelPickerColumnState extends State<_WheelPickerColumn> {
               onSelectedItemChanged: (index) {
                 if (_lastIndex != index) {
                   _lastIndex = index;
-                            }
+                }
                 widget.onChanged(index);
               },
               children: widget.values
@@ -3641,12 +3723,14 @@ class _SpeedIconState extends State<_SpeedIcon>
       vsync: this,
       duration: const Duration(milliseconds: 350),
     );
-    _scale = Tween<double>(begin: 1.0, end: 1.04).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
-    _iconScale = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 1.04,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
+    _iconScale = Tween<double>(
+      begin: 1.0,
+      end: 1.15,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
     _fade = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     if (widget.active) _controller.forward();
   }
@@ -3678,7 +3762,9 @@ class _SpeedIconState extends State<_SpeedIcon>
             width: 100,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
             decoration: BoxDecoration(
-              color: widget.active ? widget.accentColor.withValues(alpha: 0.14) : NPColors.surface,
+              color: widget.active
+                  ? widget.accentColor.withValues(alpha: 0.14)
+                  : NPColors.surface,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
                 color: widget.active
@@ -3730,7 +3816,9 @@ class _SpeedIconState extends State<_SpeedIcon>
                   widget.label,
                   style: TextStyle(
                     fontSize: 13,
-                    fontWeight: widget.active ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: widget.active
+                        ? FontWeight.w700
+                        : FontWeight.w500,
                     color: widget.active ? NPColors.text : NPColors.soft,
                     letterSpacing: -0.2,
                   ),
@@ -3744,7 +3832,9 @@ class _SpeedIconState extends State<_SpeedIcon>
                     color: widget.active
                         ? widget.accentColor
                         : NPColors.soft.withValues(alpha: 0.6),
-                    fontWeight: widget.active ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: widget.active
+                        ? FontWeight.w600
+                        : FontWeight.w400,
                   ),
                 ),
               ],
@@ -3847,7 +3937,6 @@ class _MacroCard extends StatelessWidget {
   }
 }
 
-
 class _AnimatedRing extends StatefulWidget {
   final String value;
   final double progress;
@@ -3881,16 +3970,12 @@ class _AnimatedRingState extends State<_AnimatedRing>
     _progressAnimation = Tween<double>(
       begin: 0,
       end: widget.progress,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _scaleAnimation = Tween<double>(
       begin: 0.92,
       end: 1.0,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _controller.forward();
   }
@@ -3962,10 +4047,7 @@ class _RingPainter extends CustomPainter {
   final double progress;
   final Color color;
 
-  _RingPainter({
-    required this.progress,
-    required this.color,
-  });
+  _RingPainter({required this.progress, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -4042,7 +4124,10 @@ class _GlassCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: NPColors.surface,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: NPColors.border.withValues(alpha: 0.75), width: 1),
+        border: Border.all(
+          color: NPColors.border.withValues(alpha: 0.75),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -4128,7 +4213,7 @@ class _BackCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          onTap();
+        onTap();
       },
       child: Container(
         width: 42,
@@ -4136,7 +4221,10 @@ class _BackCircle extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.08),
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.white.withValues(alpha: 0.10), width: 1),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.10),
+            width: 1,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.20),
@@ -4291,12 +4379,15 @@ class _RulerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final fillPaint = Paint()
-      ..shader = LinearGradient(
-        colors: [
-          NPColors.primary.withValues(alpha: 0.10),
-          NPColors.primary.withValues(alpha: 0.04),
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width * selectedPercent, size.height));
+      ..shader =
+          LinearGradient(
+            colors: [
+              NPColors.primary.withValues(alpha: 0.10),
+              NPColors.primary.withValues(alpha: 0.04),
+            ],
+          ).createShader(
+            Rect.fromLTWH(0, 0, size.width * selectedPercent, size.height),
+          );
 
     final selectedX = size.width * selectedPercent;
 
@@ -4315,11 +4406,17 @@ class _RulerPainter extends CustomPainter {
       final tickIndex = (x / tickSpacing).round();
       final isMajor = (tickIndex % 10 == 0);
       final isMid = (tickIndex % 5 == 0);
-      final tickHeight = isMajor ? 38.0 : isMid ? 24.0 : 14.0;
+      final tickHeight = isMajor
+          ? 38.0
+          : isMid
+          ? 24.0
+          : 14.0;
       final isPast = x <= selectedX;
       final paint = Paint()
         ..color = isPast
-            ? (isMajor ? NPColors.primary : NPColors.primary.withValues(alpha: 0.45))
+            ? (isMajor
+                  ? NPColors.primary
+                  : NPColors.primary.withValues(alpha: 0.45))
             : (isMajor ? Colors.black26 : Colors.black12)
         ..strokeWidth = isMajor ? 1.8 : 1.0;
 

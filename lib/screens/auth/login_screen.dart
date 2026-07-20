@@ -47,9 +47,7 @@ class _LoginScreenState extends State<LoginScreen>
     _slide = Tween<Offset>(
       begin: const Offset(0, 0.05),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
   }
@@ -352,11 +350,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ],
                               ),
-                              child: Icon(
-                                icon,
-                                color: iconColor,
-                                size: 38,
-                              ),
+                              child: Icon(icon, color: iconColor, size: 38),
                             ),
                           );
                         },
@@ -405,11 +399,7 @@ class _LoginScreenState extends State<LoginScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF2A3A18),
-              Color(0xFF0F140D),
-              Color(0xFF070907),
-            ],
+            colors: [Color(0xFF2A3A18), Color(0xFF0F140D), Color(0xFF070907)],
           ),
         ),
         child: SafeArea(
@@ -419,8 +409,10 @@ class _LoginScreenState extends State<LoginScreen>
               position: _slide,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 22,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -590,22 +582,26 @@ class _LoginScreenState extends State<LoginScreen>
                                     color: Colors.transparent,
                                     child: InkWell(
                                       onTap: _handleLogin,
-                                      splashColor:
-                                          Colors.white.withValues(alpha: 0.25),
-                                      highlightColor:
-                                          Colors.black.withValues(alpha: 0.08),
+                                      splashColor: Colors.white.withValues(
+                                        alpha: 0.25,
+                                      ),
+                                      highlightColor: Colors.black.withValues(
+                                        alpha: 0.08,
+                                      ),
                                       child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 240),
+                                        duration: const Duration(
+                                          milliseconds: 240,
+                                        ),
                                         curve: Curves.easeOutCubic,
                                         decoration: BoxDecoration(
                                           color: _isSuccess
                                               ? lime
                                               : _isLoading
-                                                  ? lime.withValues(alpha: 0.78)
-                                                  : lime,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                              ? lime.withValues(alpha: 0.78)
+                                              : lime,
+                                          borderRadius: BorderRadius.circular(
+                                            24,
+                                          ),
                                           boxShadow: [
                                             BoxShadow(
                                               color: lime.withValues(
@@ -625,14 +621,14 @@ class _LoginScreenState extends State<LoginScreen>
                                             switchOutCurve: Curves.easeIn,
                                             transitionBuilder:
                                                 (child, animation) {
-                                              return ScaleTransition(
-                                                scale: animation,
-                                                child: FadeTransition(
-                                                  opacity: animation,
-                                                  child: child,
-                                                ),
-                                              );
-                                            },
+                                                  return ScaleTransition(
+                                                    scale: animation,
+                                                    child: FadeTransition(
+                                                      opacity: animation,
+                                                      child: child,
+                                                    ),
+                                                  );
+                                                },
                                             child: _isSuccess
                                                 ? const Icon(
                                                     Icons.check_rounded,
@@ -641,29 +637,26 @@ class _LoginScreenState extends State<LoginScreen>
                                                     size: 30,
                                                   )
                                                 : _isLoading
-                                                    ? const SizedBox(
-                                                        key:
-                                                            ValueKey('loading'),
-                                                        width: 23,
-                                                        height: 23,
-                                                        child:
-                                                            CircularProgressIndicator(
+                                                ? const SizedBox(
+                                                    key: ValueKey('loading'),
+                                                    width: 23,
+                                                    height: 23,
+                                                    child:
+                                                        CircularProgressIndicator(
                                                           strokeWidth: 2.5,
                                                           color: Colors.black,
                                                         ),
-                                                      )
-                                                    : Text(
-                                                        'Sign In',
-                                                        key: const ValueKey(
-                                                            'text'),
-                                                        style:
-                                                            GoogleFonts.outfit(
-                                                          color: Colors.black,
-                                                          fontSize: 17,
-                                                          fontWeight:
-                                                              FontWeight.w800,
-                                                        ),
-                                                      ),
+                                                  )
+                                                : Text(
+                                                    'Sign In',
+                                                    key: const ValueKey('text'),
+                                                    style: GoogleFonts.outfit(
+                                                      color: Colors.black,
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                  ),
                                           ),
                                         ),
                                       ),
@@ -708,15 +701,14 @@ class _LoginScreenState extends State<LoginScreen>
     return TextField(
       controller: controller,
       obscureText: obscureText,
-      keyboardType:
-          icon == Icons.mail_outline_rounded ? TextInputType.emailAddress : null,
+      keyboardType: icon == Icons.mail_outline_rounded
+          ? TextInputType.emailAddress
+          : null,
       cursorColor: lime,
       style: GoogleFonts.outfit(color: text),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.outfit(
-          color: soft.withValues(alpha: 0.7),
-        ),
+        hintStyle: GoogleFonts.outfit(color: soft.withValues(alpha: 0.7)),
         prefixIcon: Icon(icon, color: soft),
         suffixIcon: suffix,
         filled: true,

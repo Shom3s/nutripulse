@@ -45,32 +45,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       value: 1.0,
     );
 
-    _fade = CurvedAnimation(
-      parent: _entryController,
-      curve: Curves.easeOut,
-    );
+    _fade = CurvedAnimation(parent: _entryController, curve: Curves.easeOut);
 
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 0.08),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _entryController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+    _slide = Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _entryController, curve: Curves.easeOutCubic),
+        );
 
-    _heartBeat = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.00, end: 1.08), weight: 25),
-      TweenSequenceItem(tween: Tween(begin: 1.08, end: 0.98), weight: 25),
-      TweenSequenceItem(tween: Tween(begin: 0.98, end: 1.04), weight: 20),
-      TweenSequenceItem(tween: Tween(begin: 1.04, end: 1.00), weight: 30),
-    ]).animate(
-      CurvedAnimation(
-        parent: _heartController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _heartBeat =
+        TweenSequence<double>([
+          TweenSequenceItem(tween: Tween(begin: 1.00, end: 1.08), weight: 25),
+          TweenSequenceItem(tween: Tween(begin: 1.08, end: 0.98), weight: 25),
+          TweenSequenceItem(tween: Tween(begin: 0.98, end: 1.04), weight: 20),
+          TweenSequenceItem(tween: Tween(begin: 1.04, end: 1.00), weight: 30),
+        ]).animate(
+          CurvedAnimation(parent: _heartController, curve: Curves.easeInOut),
+        );
 
     _buttonScale = _buttonController;
 
@@ -103,11 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           gradient: RadialGradient(
             center: Alignment.topCenter,
             radius: 1.35,
-            colors: [
-              Color(0xFF2B3A19),
-              Color(0xFF10150D),
-              Color(0xFF070907),
-            ],
+            colors: [Color(0xFF2B3A19), Color(0xFF10150D), Color(0xFF070907)],
           ),
         ),
         child: SafeArea(
