@@ -294,6 +294,18 @@ The IoT prototype demonstrates how readings such as heart rate and temperature c
 
 The chatbot can use selected application context, such as calorie intake, protein intake, steps, and user goals, to provide more relevant lifestyle guidance.
 
+## IoT Health Monitoring Prototype
+
+<p align="center">
+  <img src="docs/screenshots/iot-health-scan-device.jpg" width="430" alt="NutriPulse ESP32 health monitoring device setup">
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/iot-health-scan-finger.jpg" width="430" alt="NutriPulse IoT sensor finger testing">
+</p>
+
+<p align="center">
+  <em>ESP32-based health monitoring prototype and live sensor testing.</em>
+</p>
+
 ---
 
 ## Technology Stack
