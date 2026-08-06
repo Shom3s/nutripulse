@@ -40,7 +40,10 @@ NutriPulse is an integrated mobile health application developed with Flutter and
 - [Security and Privacy](#security-and-privacy)
 - [Current Limitations](#current-limitations)
 - [Future Enhancements](#future-enhancements)
+- [Academic Context](#academic-context)
 - [Author](#author)
+- [Disclaimer](#disclaimer)
+- [License](#license)
 
 ---
 
@@ -52,6 +55,8 @@ NutriPulse addresses this issue by presenting food intake, calorie and macronutr
 
 The application is designed for personal lifestyle monitoring and academic demonstration. It is **not** a medical diagnosis system and does not replace professional medical consultation.
 
+---
+
 ## Problem Addressed
 
 NutriPulse focuses on three main problems:
@@ -60,9 +65,11 @@ NutriPulse focuses on three main problems:
 2. **Time-consuming food logging** — users may not know the estimated calories and macronutrients of common meals.
 3. **Low engagement and limited guidance** — raw health values are difficult to interpret without visual progress, summaries, motivation, and practical suggestions.
 
-## Core Features
+---
 
-### 1. User Onboarding and Personalisation
+# Core Features
+
+## 1. User Onboarding and Personalisation
 
 - Gender, age, height, weight, and target weight setup
 - Fitness goal selection such as maintaining or gaining weight
@@ -71,7 +78,7 @@ NutriPulse focuses on three main problems:
 - Personalised calorie and macronutrient target generation
 - Account registration and secure login
 
-### 2. Smart Dashboard
+## 2. Smart Dashboard
 
 - Daily calorie summary
 - Weekly calorie trend chart
@@ -81,7 +88,7 @@ NutriPulse focuses on three main problems:
 - Health calendar preview
 - Recent meals and quick navigation
 
-### 3. Food Logging and Nutrition
+## 3. Food Logging and Nutrition
 
 - Camera-based food scanning
 - Gallery image selection
@@ -94,7 +101,7 @@ NutriPulse focuses on three main problems:
 - Smart food warnings
 - Portion estimation using plate size or gram input
 
-### 4. Activity and Running
+## 4. Activity and Running
 
 - Daily step tracking
 - Weekly movement goals
@@ -104,14 +111,14 @@ NutriPulse focuses on three main problems:
 - Live distance, pace, and duration tracking
 - Completed activity summary and XP reward
 
-### 5. Hydration Monitoring
+## 5. Hydration Monitoring
 
 - Daily water target
 - Visual intake progress
 - Incremental water logging
 - Integration with dashboard and health reports
 
-### 6. Health Monitoring and Reports
+## 6. Health Monitoring and Reports
 
 - ESP32-connected prototype health scan
 - Heart-rate and temperature display
@@ -121,33 +128,45 @@ NutriPulse focuses on three main problems:
 - Advanced health report generation
 - Health score and reference-range indicators
 
-### 7. AI Health Coach
+## 7. AI Health Coach
 
 - Context-aware health and nutrition responses
 - Personalised interpretation of calories, protein, steps, and goals
 - Conversational guidance inside the application
 - Chat history and quick suggestions
 
-### 8. Gamification
+## 8. Gamification
 
-- Experience points
-- Levels and progress bars
-- Streaks
+- Experience points (XP)
+- User levels and progress bars
+- Daily and activity streaks
 - Badges and achievements
-- Daily missions
-- Reward pop-ups and celebration effects
+- Daily missions and challenges
+- Reward pop-ups
+- Celebration effects
 - Leaderboard support
 
-### 9. Community Features
+## 9. Community Features
 
 - Community feed
 - Post creation and editing
 - Stories and story viewers
 - Comments and reactions
 - Friend profiles and friend requests
-- Private and group chat
-- Groups
-- Community marketplace and order management
+- Private messaging
+- Group chat
+- Community groups
+- User interaction and social engagement
+
+## 10. Community Marketplace
+
+- Community marketplace
+- Product listings
+- Product detail pages
+- Buying and selling features
+- Order placement
+- Buyer order history
+- Seller order management
 
 ---
 
@@ -165,6 +184,7 @@ NutriPulse focuses on three main problems:
 
 <details>
 <summary><b>View complete onboarding flow</b></summary>
+
 <br>
 
 <table>
@@ -174,18 +194,21 @@ NutriPulse focuses on three main problems:
     <td align="center"><img src="docs/screenshots/onboarding-calorie-tracking.jpg" width="190"><br>Tracking Experience</td>
     <td align="center"><img src="docs/screenshots/onboarding-height-weight.jpg" width="190"><br>Height and Weight</td>
   </tr>
+
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-age.jpg" width="190"><br>Age</td>
     <td align="center"><img src="docs/screenshots/onboarding-goal.jpg" width="190"><br>Goal</td>
     <td align="center"><img src="docs/screenshots/onboarding-target-weight.jpg" width="190"><br>Target Weight</td>
     <td align="center"><img src="docs/screenshots/onboarding-weight-pace.jpg" width="190"><br>Weekly Pace</td>
   </tr>
+
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-challenge.jpg" width="190"><br>Main Challenge</td>
     <td align="center"><img src="docs/screenshots/onboarding-diet.jpg" width="190"><br>Diet Preference</td>
     <td align="center"><img src="docs/screenshots/onboarding-goal-projection.jpg" width="190"><br>Goal Projection</td>
     <td align="center"><img src="docs/screenshots/onboarding-plan-generation.jpg" width="190"><br>Plan Generation</td>
   </tr>
+
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-plan-ready.jpg" width="190"><br>Plan Ready</td>
     <td align="center"><img src="docs/screenshots/onboarding-daily-targets.jpg" width="190"><br>Daily Targets</td>
@@ -193,6 +216,8 @@ NutriPulse focuses on three main problems:
 </table>
 
 </details>
+
+---
 
 ## Dashboard and Daily Progress
 
@@ -206,6 +231,8 @@ NutriPulse focuses on three main problems:
 
 The dashboard centralises the user's current calorie intake, weekly calorie chart, activity, hydration, and health progress. It also provides quick access to the food, health, activity, community, and profile modules.
 
+---
+
 ## Nutrition Overview and History
 
 <table>
@@ -216,6 +243,8 @@ The dashboard centralises the user's current calorie intake, weekly calorie char
     <td align="center"><img src="docs/screenshots/nutrition-breakdown.jpg" width="220"><br><b>Nutrition Breakdown</b></td>
   </tr>
 </table>
+
+---
 
 ## Food Logging and Recognition
 
@@ -230,6 +259,8 @@ The dashboard centralises the user's current calorie intake, weekly calorie char
 
 The food module supports multiple logging methods so users are not dependent on a single input flow. A scanned image can be classified using the included TensorFlow Lite model, while manual search and portion adjustment provide a fallback when recognition is uncertain.
 
+---
+
 ## Smart Food Warning and Portion Estimation
 
 <table>
@@ -240,6 +271,8 @@ The food module supports multiple logging methods so users are not dependent on 
   </tr>
 </table>
 
+---
+
 ## Recent Meals, Notifications, and Favourites
 
 <table>
@@ -248,6 +281,8 @@ The food module supports multiple logging methods so users are not dependent on 
     <td align="center"><img src="docs/screenshots/weekly-calories-and-favourites.jpg" width="235"><br><b>Weekly Calories and Favourites</b></td>
   </tr>
 </table>
+
+---
 
 ## Activity and Running
 
@@ -268,6 +303,8 @@ The food module supports multiple logging methods so users are not dependent on 
   </tr>
 </table>
 
+---
+
 ## IoT Health Scan and Health Reports
 
 <table>
@@ -284,6 +321,8 @@ The food module supports multiple logging methods so users are not dependent on 
 
 The IoT prototype demonstrates how readings such as heart rate and temperature can be displayed, stored, visualised, and included in a generated health report. These readings are for project demonstration and lifestyle awareness only.
 
+---
+
 ## AI Health Coach
 
 <table>
@@ -293,6 +332,68 @@ The IoT prototype demonstrates how readings such as heart rate and temperature c
 </table>
 
 The chatbot can use selected application context, such as calorie intake, protein intake, steps, and user goals, to provide more relevant lifestyle guidance.
+
+---
+
+# Gamification and Rewards
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/gamification-home.jpg" width="220"><br><b>Gamification Dashboard</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-daily-missions.jpg" width="220"><br><b>Daily Missions</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-badges.jpg" width="220"><br><b>Badges & Achievements</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-level-progress.jpg" width="220"><br><b>Level Progress</b></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/gamification-leaderboard.jpg" width="235"><br><b>Leaderboard</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-reward.jpg" width="235"><br><b>XP Rewards</b></td>
+  </tr>
+</table>
+
+NutriPulse incorporates a gamification system designed to encourage users to maintain consistent healthy habits. Users earn experience points by completing health-related activities, progress through levels, maintain streaks, complete daily missions, unlock achievements, and compare progress through the leaderboard.
+
+---
+
+# Community and Social Features
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/community-feed.jpg" width="220"><br><b>Community Feed</b></td>
+    <td align="center"><img src="docs/screenshots/community-create-post.jpg" width="220"><br><b>Create Post</b></td>
+    <td align="center"><img src="docs/screenshots/community-stories.jpg" width="220"><br><b>Stories</b></td>
+    <td align="center"><img src="docs/screenshots/community-comments.jpg" width="220"><br><b>Comments & Reactions</b></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/community-friends.jpg" width="220"><br><b>Friends</b></td>
+    <td align="center"><img src="docs/screenshots/community-profile.jpg" width="220"><br><b>User Profile</b></td>
+    <td align="center"><img src="docs/screenshots/community-chat.jpg" width="220"><br><b>Private Chat</b></td>
+    <td align="center"><img src="docs/screenshots/community-groups.jpg" width="220"><br><b>Community Groups</b></td>
+  </tr>
+</table>
+
+NutriPulse provides a social health community where users can share progress, publish posts, interact through stories, comments and reactions, connect with friends, communicate through private or group chats, and participate in health-focused groups.
+
+---
+
+# Community Marketplace
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/community-marketplace.jpg" width="235"><br><b>Marketplace</b></td>
+    <td align="center"><img src="docs/screenshots/community-market-item.jpg" width="235"><br><b>Product Details</b></td>
+    <td align="center"><img src="docs/screenshots/community-orders.jpg" width="235"><br><b>Order Management</b></td>
+  </tr>
+</table>
+
+The integrated community marketplace allows users to browse listings, view product information, place orders, and manage buying or selling activities within the NutriPulse ecosystem.
+
+---
 
 ## IoT Health Monitoring Prototype
 
@@ -308,7 +409,7 @@ The chatbot can use selected application context, such as calorie intake, protei
 
 ---
 
-## Technology Stack
+# Technology Stack
 
 | Layer | Technology |
 |---|---|
@@ -325,7 +426,9 @@ The chatbot can use selected application context, such as calorie intake, protei
 | IoT prototype | ESP32 with health sensors |
 | Report output | Flutter PDF generation |
 
-## System Architecture
+---
+
+# System Architecture
 
 ```text
 User
@@ -340,7 +443,8 @@ Flutter Mobile Application
   ├── Health Monitoring and Reports
   ├── AI Health Coach
   ├── Gamification
-  └── Community and Marketplace
+  ├── Community and Social
+  └── Community Marketplace
   │
   ├── Firebase Authentication
   ├── Cloud Firestore
@@ -351,7 +455,9 @@ Flutter Mobile Application
   └── ESP32 Sensor Prototype
 ```
 
-## Project Structure
+---
+
+# Project Structure
 
 ```text
 nutripulse/
@@ -363,11 +469,42 @@ nutripulse/
 │   └── ml/
 │       ├── food_labels.json
 │       └── food_model.tflite
+│
 ├── docs/
 │   └── screenshots/
+│       ├── activity-calendar.jpg
+│       ├── activity-monthly-summary.jpg
+│       ├── activity-summary.jpg
+│       ├── community-chat.jpg
+│       ├── community-comments.jpg
+│       ├── community-create-post.jpg
+│       ├── community-feed.jpg
+│       ├── community-friends.jpg
+│       ├── community-groups.jpg
+│       ├── community-market-item.jpg
+│       ├── community-marketplace.jpg
+│       ├── community-orders.jpg
+│       ├── community-profile.jpg
+│       ├── community-stories.jpg
+│       ├── dashboard-health-calendar.jpg
+│       ├── dashboard-home.jpg
+│       ├── food-database.jpg
+│       ├── food-log-overview.jpg
+│       ├── food-manual-entry.jpg
+│       ├── food-recognition-result.jpg
+│       ├── food-scan-entry.jpg
+│       ├── gamification-badges.jpg
+│       ├── gamification-daily-missions.jpg
+│       ├── gamification-home.jpg
+│       ├── gamification-leaderboard.jpg
+│       ├── gamification-level-progress.jpg
+│       ├── gamification-reward.jpg
+│       └── ...
+│
 ├── functions/
 │   ├── index.js
 │   └── package.json
+│
 ├── lib/
 │   ├── config/
 │   ├── core/
@@ -396,14 +533,17 @@ nutripulse/
 │   ├── theme/
 │   ├── widgets/
 │   └── main.dart
+│
 ├── test/
 ├── pubspec.yaml
 └── README.md
 ```
 
-## Getting Started
+---
 
-### Prerequisites
+# Getting Started
+
+## Prerequisites
 
 Install the following tools:
 
@@ -420,20 +560,20 @@ Check your setup:
 flutter doctor
 ```
 
-### Clone the Repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/Shom3s/nutripulse.git
 cd nutripulse
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 ```bash
 flutter pub get
 ```
 
-### Run the Application
+## Run the Application
 
 ```bash
 flutter run
@@ -446,7 +586,7 @@ flutter devices
 flutter run -d DEVICE_ID
 ```
 
-### Build an Android APK
+## Build an Android APK
 
 ```bash
 flutter build apk --release
@@ -458,7 +598,9 @@ The generated APK is normally located at:
 build/app/outputs/flutter-apk/app-release.apk
 ```
 
-## Firebase Configuration
+---
+
+# Firebase Configuration
 
 1. Create a Firebase project.
 2. Add an Android application using the package name configured in the project.
@@ -476,17 +618,19 @@ android/app/google-services.json
    - Storage, where used
 6. Apply appropriate Firestore security rules before testing with real user data.
 
-## AI Configuration
+---
+
+# AI Configuration
 
 The Groq API key must not be committed to GitHub.
 
-Create the following local file:
+Create:
 
 ```text
 lib/config/groq_config.dart
 ```
 
-Example structure:
+Example:
 
 ```dart
 class GroqConfig {
@@ -507,7 +651,9 @@ android/key.properties
 
 For a production deployment, route AI requests through a secure backend instead of embedding a private API key in the mobile application.
 
-## Machine Learning Assets
+---
+
+# Machine Learning Assets
 
 The food-recognition feature uses a TensorFlow Lite model and label file stored under the project assets.
 
@@ -517,7 +663,7 @@ assets/ml/food_labels.json
 assets/data/food_database.csv
 ```
 
-Make sure these paths are registered in `pubspec.yaml` before running the application.
+Make sure these paths are registered in `pubspec.yaml`.
 
 Example:
 
@@ -529,52 +675,93 @@ flutter:
     - assets/data/food_database.csv
 ```
 
-## Security and Privacy
+---
+
+# Security and Privacy
 
 - Do not commit API keys, passwords, keystores, or private Firebase credentials.
 - Restrict Firestore access using authenticated user IDs.
 - Keep personal health records separated by user account.
 - Validate user input before writing to Firestore.
+- Apply access controls to private messages and user content.
+- Validate marketplace orders and seller ownership.
 - Treat AI advice as general lifestyle guidance rather than medical advice.
 - Treat ESP32 sensor readings as prototype measurements rather than clinical data.
 
-## Current Limitations
+---
+
+# Current Limitations
 
 - Food-recognition accuracy depends on the supported food classes, lighting, camera angle, image quality, and food presentation.
 - Nutrition values are estimates and may vary according to portion size, ingredients, and preparation method.
 - Activity data depends on device permissions and available Health Connect or Google Fit information.
 - IoT sensor readings are not clinically validated.
 - The AI coach does not provide diagnosis, emergency care, or medication prescriptions.
-- Some social and marketplace features may require further production-level moderation and security hardening.
+- Community and marketplace features may require additional production-level moderation and security hardening.
+- Gamification rewards are designed primarily to improve engagement and do not represent medical achievements.
 
-## Future Enhancements
+---
+
+# Future Enhancements
 
 - Expand the food dataset and Malaysian food classes
-- Improve model accuracy and portion estimation
+- Improve food-recognition accuracy
+- Improve portion estimation
 - Add stronger personalised recommendations
 - Improve offline mode and synchronisation
 - Add wearable-device integrations
 - Add richer sleep and recovery analytics
+- Expand gamification challenges and achievements
+- Improve community interaction features
+- Add stronger community content moderation
+- Improve marketplace security and order management
 - Strengthen backend security for AI requests
-- Add production-ready content moderation
 - Improve accessibility and multilingual support
 - Perform broader usability and clinical validation studies
 
-## Academic Context
+---
 
-This project was developed as a Final Year Project under the Faculty of Information and Communication Technology, Universiti Teknikal Malaysia Melaka. It demonstrates mobile application development, cloud integration, machine learning inference, health-data visualisation, gamification, community features, AI-assisted guidance, and an IoT sensor prototype.
+# Academic Context
 
-## Author
+This project was developed as a Final Year Project under the Faculty of Information and Communication Technology, Universiti Teknikal Malaysia Melaka.
+
+It demonstrates:
+
+- Mobile application development
+- Firebase cloud integration
+- Machine learning inference
+- Nutrition and health-data visualisation
+- Activity tracking
+- IoT sensor integration
+- AI-assisted health guidance
+- Gamification
+- Social and community functionality
+- Marketplace functionality
+- User authentication and cloud data management
+
+---
+
+# Author
 
 **Shomeswaran A/L Mugunthan**  
 Bachelor of Computer Science  
 Faculty of Information and Communication Technology  
 Universiti Teknikal Malaysia Melaka
 
-## Disclaimer
+---
 
-NutriPulse is intended for educational, lifestyle-tracking, and prototype demonstration purposes. It does not provide medical diagnosis, treatment, emergency support, or professional dietary prescriptions.
+# Disclaimer
 
-## License
+NutriPulse is intended for educational, lifestyle-tracking, and prototype demonstration purposes.
 
-This repository is currently provided for academic and portfolio purposes. Add a suitable licence before permitting reuse, modification, or redistribution.
+It does not provide medical diagnosis, treatment, emergency support, or professional dietary prescriptions.
+
+Health values, nutrition estimates, AI-generated recommendations, and IoT sensor measurements should not be considered substitutes for professional medical advice.
+
+---
+
+# License
+
+This repository is currently provided for academic and portfolio purposes.
+
+Add a suitable licence before permitting reuse, modification, or redistribution.
