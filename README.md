@@ -194,21 +194,18 @@ NutriPulse focuses on three main problems:
     <td align="center"><img src="docs/screenshots/onboarding-calorie-tracking.jpg" width="190"><br>Tracking Experience</td>
     <td align="center"><img src="docs/screenshots/onboarding-height-weight.jpg" width="190"><br>Height and Weight</td>
   </tr>
-
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-age.jpg" width="190"><br>Age</td>
     <td align="center"><img src="docs/screenshots/onboarding-goal.jpg" width="190"><br>Goal</td>
     <td align="center"><img src="docs/screenshots/onboarding-target-weight.jpg" width="190"><br>Target Weight</td>
     <td align="center"><img src="docs/screenshots/onboarding-weight-pace.jpg" width="190"><br>Weekly Pace</td>
   </tr>
-
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-challenge.jpg" width="190"><br>Main Challenge</td>
     <td align="center"><img src="docs/screenshots/onboarding-diet.jpg" width="190"><br>Diet Preference</td>
     <td align="center"><img src="docs/screenshots/onboarding-goal-projection.jpg" width="190"><br>Goal Projection</td>
     <td align="center"><img src="docs/screenshots/onboarding-plan-generation.jpg" width="190"><br>Plan Generation</td>
   </tr>
-
   <tr>
     <td align="center"><img src="docs/screenshots/onboarding-plan-ready.jpg" width="190"><br>Plan Ready</td>
     <td align="center"><img src="docs/screenshots/onboarding-daily-targets.jpg" width="190"><br>Daily Targets</td>
@@ -339,17 +336,10 @@ The chatbot can use selected application context, such as calorie intake, protei
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/gamification-proress.jpg" width="220"><br><b>Gamification Dashboard</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-missions-achievements.jpg" width="220"><br><b>Daily Missions</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-proress.jpg" width="220"><br><b>Badges & Achievements</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-level-progress.jpg" width="220"><br><b>Level Progress</b></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td align="center"><img src="docs/screenshots/gamification-leaderboard.jpg" width="235"><br><b>Leaderboard</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-reward.jpg" width="235"><br><b>XP Rewards</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-progress.jpg" width="220"><br><b>Gamification Progress</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-missions-achievements.jpg" width="220"><br><b>Missions & Achievements</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-mission-reward.jpg" width="220"><br><b>Mission Reward</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-leaderboard.jpg" width="220"><br><b>Leaderboard</b></td>
   </tr>
 </table>
 
@@ -362,22 +352,20 @@ NutriPulse incorporates a gamification system designed to encourage users to mai
 <table>
   <tr>
     <td align="center"><img src="docs/screenshots/community-feed.jpg" width="220"><br><b>Community Feed</b></td>
-    <td align="center"><img src="docs/screenshots/community-create-post.jpg" width="220"><br><b>Create Post</b></td>
-    <td align="center"><img src="docs/screenshots/community-stories.jpg" width="220"><br><b>Stories</b></td>
-    <td align="center"><img src="docs/screenshots/community-comments.jpg" width="220"><br><b>Comments & Reactions</b></td>
+    <td align="center"><img src="docs/screenshots/community-post-detail.jpg" width="220"><br><b>Post Detail</b></td>
+    <td align="center"><img src="docs/screenshots/community-notifications.jpg" width="220"><br><b>Notifications</b></td>
+    <td align="center"><img src="docs/screenshots/community-friends.jpg" width="220"><br><b>Friends</b></td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/community-friends.jpg" width="220"><br><b>Friends</b></td>
-    <td align="center"><img src="docs/screenshots/community-profile.jpg" width="220"><br><b>User Profile</b></td>
-    <td align="center"><img src="docs/screenshots/community-chat.jpg" width="220"><br><b>Private Chat</b></td>
     <td align="center"><img src="docs/screenshots/community-groups.jpg" width="220"><br><b>Community Groups</b></td>
+    <td align="center"><img src="docs/screenshots/community-group-detail.jpg" width="220"><br><b>Group Detail</b></td>
   </tr>
 </table>
 
-NutriPulse provides a social health community where users can share progress, publish posts, interact through stories, comments and reactions, connect with friends, communicate through private or group chats, and participate in health-focused groups.
+NutriPulse provides a social health community where users can share progress, interact with posts, connect with friends, receive community notifications, and participate in groups.
 
 ---
 
@@ -385,13 +373,14 @@ NutriPulse provides a social health community where users can share progress, pu
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/community-marketplace.jpg" width="235"><br><b>Marketplace</b></td>
-    <td align="center"><img src="docs/screenshots/community-market-item.jpg" width="235"><br><b>Product Details</b></td>
-    <td align="center"><img src="docs/screenshots/community-orders.jpg" width="235"><br><b>Order Management</b></td>
+    <td align="center"><img src="docs/screenshots/community-marketplace.jpg" width="220"><br><b>Marketplace</b></td>
+    <td align="center"><img src="docs/screenshots/community-marketplace-browse.jpg" width="220"><br><b>Browse Marketplace</b></td>
+    <td align="center"><img src="docs/screenshots/community-seller-center.jpg" width="220"><br><b>Seller Center</b></td>
+    <td align="center"><img src="docs/screenshots/community-cod-orders.jpg" width="220"><br><b>COD Orders</b></td>
   </tr>
 </table>
 
-The integrated community marketplace allows users to browse listings, view product information, place orders, and manage buying or selling activities within the NutriPulse ecosystem.
+The integrated community marketplace allows users to browse listings and manage marketplace activities within the NutriPulse ecosystem.
 
 ---
 
@@ -475,17 +464,20 @@ nutripulse/
 │       ├── activity-calendar.jpg
 │       ├── activity-monthly-summary.jpg
 │       ├── activity-summary.jpg
-│       ├── community-chat.jpg
-│       ├── community-comments.jpg
-│       ├── community-create-post.jpg
+│       ├── community-cod-orders.jpg
 │       ├── community-feed.jpg
 │       ├── community-friends.jpg
+│       ├── community-group-detail.jpg
 │       ├── community-groups.jpg
-│       ├── community-market-item.jpg
+│       ├── community-marketplace-browse.jpg
 │       ├── community-marketplace.jpg
-│       ├── community-orders.jpg
-│       ├── community-profile.jpg
-│       ├── community-stories.jpg
+│       ├── community-notifications.jpg
+│       ├── community-post-detail.jpg
+│       ├── community-seller-center.jpg
+│       ├── gamification-leaderboard.jpg
+│       ├── gamification-mission-reward.jpg
+│       ├── gamification-missions-achievements.jpg
+│       ├── gamification-progress.jpg
 │       ├── dashboard-health-calendar.jpg
 │       ├── dashboard-home.jpg
 │       ├── food-database.jpg
@@ -493,12 +485,6 @@ nutripulse/
 │       ├── food-manual-entry.jpg
 │       ├── food-recognition-result.jpg
 │       ├── food-scan-entry.jpg
-│       ├── gamification-badges.jpg
-│       ├── gamification-daily-missions.jpg
-│       ├── gamification-home.jpg
-│       ├── gamification-leaderboard.jpg
-│       ├── gamification-level-progress.jpg
-│       ├── gamification-reward.jpg
 │       └── ...
 │
 ├── functions/
