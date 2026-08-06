@@ -339,9 +339,9 @@ The chatbot can use selected application context, such as calorie intake, protei
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/gamification-home.jpg" width="220"><br><b>Gamification Dashboard</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-daily-missions.jpg" width="220"><br><b>Daily Missions</b></td>
-    <td align="center"><img src="docs/screenshots/gamification-badges.jpg" width="220"><br><b>Badges & Achievements</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-proress.jpg" width="220"><br><b>Gamification Dashboard</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-missions-achievements.jpg" width="220"><br><b>Daily Missions</b></td>
+    <td align="center"><img src="docs/screenshots/gamification-proress.jpg" width="220"><br><b>Badges & Achievements</b></td>
     <td align="center"><img src="docs/screenshots/gamification-level-progress.jpg" width="220"><br><b>Level Progress</b></td>
   </tr>
 </table>
